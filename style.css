@@ -1,0 +1,36 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: blueviolet;
+}
+.gameField{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+.options{
+    display: flex;
+    gap: 20px;
+}
+button{
+    width: 200px;
+    height: 150px;
+    font-size: 70px;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 20px;
+}
+button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+button:active{
+    background-color: rgba(255, 255, 255, 0.7);;
+}
+.score, .message{
+    color: white;
+    font-size: 50px;
+}

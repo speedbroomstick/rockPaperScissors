@@ -1,31 +1,53 @@
-const arrOptions = ['rock', 'paper', 'scissors']
+const arrOptions = ["rock", "paper", "scissors"];
+const buttons = document.querySelectorAll("button");
+const score = document.querySelector(".score");
+const message = document.querySelector(".message");
 
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    let result = playRound(button.title, getComputerChoice(arrOptions));
+    result.indexOf("WIN") !== -1
+      ? writeScore("player")
+      : result.indexOf("Lose") !== -1
+      ? writeScore("computer")
+      : null;
+    message.textContent = isWiner() || result;
+    if(isWiner())blockButton()
+  });
+});
 function getComputerChoice(options) {
-    return options[Math.floor(Math.random() * options.length)]
+  return options[Math.floor(Math.random() * options.length)];
 }
 
 function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase()
+  playerSelection = playerSelection.toLowerCase();
 
-    if (playerSelection === computerSelection) return "Equal"
+  if (playerSelection === computerSelection) return "Equal";
 
-    let answer = `You Lose! ${computerSelection} beats ${playerSelection}`
+  let answer = `You Lose! ${computerSelection} beats ${playerSelection}`;
 
-    return playerSelection === "rock" && computerSelection === "paper" ? answer : playerSelection === "paper" && computerSelection === "scissors" ? answer :
-            playerSelection === "scissors" && computerSelection === "rock" ? answer : `You WIN! ${playerSelection} beats ${computerSelection}`
+  return playerSelection === "rock" && computerSelection === "paper"
+    ? answer
+    : playerSelection === "paper" && computerSelection === "scissors"
+    ? answer
+    : playerSelection === "scissors" && computerSelection === "rock"
+    ? answer
+    : `You WIN! ${playerSelection} beats ${computerSelection}`;
 }
-function playGame(playRound,countRounds, getComputerChoice){
-    let scores = {
-        computer:0,
-        player:0
-    }
-    for(let i=0;i<countRounds;i++){
-        let result = playRound(prompt("Write rock or paper or scissors"),getComputerChoice(arrOptions));
-        result.indexOf("You WIN!") != -1? scores.player++: result.indexOf("You Lose!") != -1? scores.computer++: null;
-        console.log(result)
-    }
-    let textScore = `${scores.player}:${scores.computer}`
-    console.log(scores.player >scores.computer?'You win this Game scores:'+textScore: scores.player<scores.computer?'You loose this Game scores:'+textScore :'Equal');
+function writeScore(winer) {
+    let [computerScore, playerScore] = score.textContent.match(/\d/g);
+    if(winer === "computer") computerScore++
+    if(winer === "player") playerScore++
+    score.textContent = computerScore+" : "+playerScore;
 }
-
-playGame(playRound,5,getComputerChoice)
+function isWiner() {
+  const [computerScore, playerScore] = score.textContent.match(/\d/g);
+  return computerScore == 5
+    ? "Game over! Computer win!"
+    : playerScore == 5
+    ? "Game over! You win!"
+    : false;
+}
+function blockButton(){
+    buttons.forEach(button=>button.disabled=true)
+}
